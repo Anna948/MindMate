@@ -159,7 +159,7 @@ Rules:
 # -------------------------------------------------
 # HEADER
 # -------------------------------------------------
-st.markdown("<h1 style='text-align:center'>🌟 MindMate - Your Mental Health Companion</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align:center'>🧠 MindMate - Your Mental Health Companion</h1>", unsafe_allow_html=True)
 
 # -------------------------------------------------
 # LAYOUT
