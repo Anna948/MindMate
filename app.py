@@ -7,8 +7,12 @@ from datetime import datetime
 # -------------------------------------------------
 st.set_page_config(
     page_title="MindMate - Your Mental Health Companion",
-    page_icon="🌟",
-    layout="wide"
+    page_icon="🧠",
+    layout="wide",
+    initial_sidebar_state="expanded",
+    menu_items={
+        'About': "MindMate - Your AI-powered mental health companion"
+    }
 )
 
 # -------------------------------------------------
@@ -24,28 +28,66 @@ if not API_KEY:
 client = Groq(api_key=API_KEY)
 
 # -------------------------------------------------
-# CUSTOM CSS
+# CUSTOM CSS - FIXED FOR DARK MODE
 # -------------------------------------------------
 st.markdown("""
 <style>
+/* Chat message styling */
 .chat-message {
     padding: 1.2rem;
     border-radius: 15px;
     margin-bottom: 1rem;
+    color: #262730;
 }
+
 .user-message {
     background-color: #e3f2fd;
     border-left: 5px solid #2196f3;
 }
+
 .bot-message {
     background-color: #f1f8e9;
     border-left: 5px solid #8bc34a;
 }
-.tip-box {
-    background-color: #fff3cd;
-    border-left: 5px solid #ffc107;
-    padding: 15px;
-    border-radius: 10px;
+
+/* Dark mode fixes */
+[data-testid="stAppViewContainer"][data-theme="dark"] .chat-message {
+    color: #262730 !important;
+}
+
+[data-testid="stAppViewContainer"][data-theme="dark"] .user-message {
+    background-color: #1e3a5f !important;
+    border-left: 5px solid #2196f3;
+    color: #ffffff !important;
+}
+
+[data-testid="stAppViewContainer"][data-theme="dark"] .bot-message {
+    background-color: #2d4a2e !important;
+    border-left: 5px solid #8bc34a;
+    color: #ffffff !important;
+}
+
+[data-testid="stAppViewContainer"][data-theme="dark"] .chat-message strong {
+    color: #ffffff !important;
+}
+
+/* Ensure timestamp is visible */
+.chat-message div[style*="color:gray"] {
+    opacity: 0.7;
+}
+
+[data-testid="stAppViewContainer"][data-theme="dark"] .chat-message div[style*="color:gray"] {
+    color: #cccccc !important;
+    opacity: 0.8;
+}
+
+/* Fix emoji and text alignment */
+div[style*="font-size:64px"] {
+    line-height: 1.2;
+}
+
+div[style*="text-align:center"][style*="font-weight:bold"] {
+    margin-top: 0.5rem;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -82,7 +124,7 @@ def detect_mood(text):
 def generate_response(user_text, mood):
     try:
         completion = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",  # Fast and high quality
+            model="llama-3.3-70b-versatile",
             messages=[
                 {
                     "role": "system",
@@ -246,8 +288,6 @@ with st.sidebar:
         st.metric("Average Mood", "0.00")
         st.caption("Overall mood: Neutral 😐")
 
-
-           
     st.markdown("---")
     st.markdown("### ℹ️ About MindMate")
     st.markdown("""
@@ -266,8 +306,6 @@ with st.sidebar:
         st.rerun()
     
     st.markdown("---")
-
-
 
 # =================================================
 # HELP SECTION
@@ -288,7 +326,3 @@ with st.expander("🆘 Need Immediate Help?"):
     
     **Remember:** Professional help is available 24/7. You're not alone. 💚
     """)
-
-
-
-
